@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from statsmodels.tsa.seasonal import seasonal_decompose
 
 # Implement pip as a subprocess to install pmdarima
-#subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pmdarima'])
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pmdarima'])
 
 def read_data():
 	# Read input file and format
