@@ -7,8 +7,10 @@ import io
 import matplotlib.pyplot as plt
 from statsmodels.tsa.seasonal import seasonal_decompose
 
-# Implement pip as a subprocess to install pmdarima
+# Implement pip as a subprocess to install pmdarima, fbprophet, neuralprophet
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pmdarima'])
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'fbprophet'])
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'neuralprophet'])
 
 def read_data():
 	# Read input file and format
