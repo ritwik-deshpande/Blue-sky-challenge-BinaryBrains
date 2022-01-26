@@ -8,10 +8,16 @@ labels = [
     'SEP', 'OCT', 'NOV', 'DEC'
 ]
 
-values = [
+co_conc = [
     967.67, 1190.89, 1079.75, 1349.19,
     2328.91, 2504.28, 2873.83, 4764.87,
     4349.29, 6458.30, 9907, 16297
+]
+
+temperature = [
+    96.67, 10.89, 1079.75, 139.19,
+    22.91, 254.28, 2873.83, 764.87,
+    49.29, 658.30, 9907, 697
 ]
 
 colors = [
@@ -23,8 +29,8 @@ colors = [
 @app.route('/line')
 def line():
     line_labels=labels
-    line_values=values
-    return render_template('line_chart.html', title='Bitcoin Monthly Price in USD', max=17000, labels=line_labels, values=line_values)
+    return render_template('line_chart.html', title='Bitcoin Monthly Price in USD', max=17000, labels=line_labels,
+                           co_conc = co_conc, temperature = temperature)
 
 
 if __name__ == '__main__':
