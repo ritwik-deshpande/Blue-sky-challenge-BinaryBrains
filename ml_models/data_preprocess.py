@@ -14,7 +14,7 @@ subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'neuralprophet'])
 
 def read_data():
 	# Read input file and format
-	df = pd.read_csv('./AirQuality.csv', delimiter = ';', usecols = ['Date', 'Time', 'CO(GT)', 'T'], decimal = ',')
+	df = pd.read_csv('../Data/AirQuality.csv', delimiter =';', usecols = ['Date', 'Time', 'CO(GT)', 'T'], decimal =',')
 	df = df.rename(columns = {'Date' : 'DATE', 'Time' : 'TIME', 'CO(GT)' : 'CO', 'T' : 'TEMP'})
 	return df
 
