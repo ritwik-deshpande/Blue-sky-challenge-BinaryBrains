@@ -1,5 +1,5 @@
 # Import data_preprocess.py
-import data_preprocess
+from ml_models import data_preprocess
 
 # Import modules
 from datetime import date, datetime
@@ -69,5 +69,3 @@ def ses_predictions_all():
 	return mape_concat_arima, predictions_conact_arima
   
 mape, pred = ses_predictions_all()
-print(mape)
-print(pred)
