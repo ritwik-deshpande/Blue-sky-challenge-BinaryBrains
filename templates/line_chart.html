@@ -16,12 +16,12 @@ var temp_chart = new Chart(document.getElementById("co_chart").getContext("2d"),
   data: {
     labels: {{labels | tojson }},
     datasets: [{
-        data: {{ temperature | tojson }},
+        data: {{ actual_temp | tojson }},
         label: "Actual Value",
         borderColor: "#3e95cd",
         fill: false
       }, {
-        data: {{ co_conc | tojson }},
+        data: {{ predicted_temp | tojson }},
         label: "Predicted Value",
         borderColor: "#8e5ea2",
         fill: false
@@ -31,7 +31,7 @@ var temp_chart = new Chart(document.getElementById("co_chart").getContext("2d"),
   options: {
     title: {
       display: true,
-      text: 'Carbon Monoxide concentration values for the next 7 days'
+      text: 'Temperature values for the next 7 days'
     },
     hover: {
      mode: 'index',
@@ -48,12 +48,12 @@ var temp_chart = new Chart(document.getElementById("temp_chart").getContext("2d"
   data: {
     labels: {{labels | tojson }},
     datasets: [{
-        data: {{ temperature | tojson }},
+        data: {{ actual_co | tojson }},
         label: "Actual Value",
         borderColor: "#3e95cd",
         fill: false
       }, {
-        data: {{ co_conc | tojson }},
+        data: {{ predicted_co | tojson }},
         label: "Predicted Value",
         borderColor: "#8e5ea2",
         fill: false
@@ -63,7 +63,7 @@ var temp_chart = new Chart(document.getElementById("temp_chart").getContext("2d"
   options: {
     title: {
       display: true,
-      text: 'Temperature values for the next 7 days'
+      text: 'Carbon Monoxide concentration values for the next 7 days'
     },
     hover: {
      mode: 'index',
