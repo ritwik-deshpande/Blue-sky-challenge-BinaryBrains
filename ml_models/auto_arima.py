@@ -1,5 +1,5 @@
 # Import data_preprocess.py
-import data_preprocess
+from ml_models import data_preprocess
 
 # Import modules
 from datetime import date, datetime
@@ -67,6 +67,6 @@ def arima_predictions_all():
 
 	# Concat mape, predictions for both columns
 	mape_concat_arima = pd.concat([mape_temp, mape_co], axis = 1)
-	predictions_conact_arima = pd.concat([predictions_temp, predictions_co], axis = 1)
+	predictions_concat_arima = pd.concat([predictions_temp, predictions_co], axis = 1)
 
-	return mape_concat_arima, predictions_conact_arima
+	return mape_concat_arima, predictions_concat_arima
