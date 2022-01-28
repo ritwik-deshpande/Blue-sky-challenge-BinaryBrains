@@ -1,5 +1,5 @@
 # Import data_preprocess.py
-import data_preprocess
+from ml_models import data_preprocess
 
 # Import modules
 from datetime import date, datetime
@@ -92,7 +92,7 @@ def fbprophet_predictions_all():
 
 	# Get CO and TEMP predicitons using fbprophet
 	mape_co, predictions_co = fbprophet(cols_co, 'CO')
-	mape_temp, predictions_temp = arima(cols_temp, 'TEMP')
+	mape_temp, predictions_temp = fbprophet(cols_temp, 'TEMP')
 
 	# Concat mape 
 	mape_concat_prophet = pd.concat([mape_temp, mape_co], axis = 1)
