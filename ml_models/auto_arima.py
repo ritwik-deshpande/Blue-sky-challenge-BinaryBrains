@@ -65,6 +65,7 @@ def arima_predictions_all():
 	mape_co, predictions_co = arima('CO')
 	mape_temp, predictions_temp = arima('TEMP')
 
+	# Write predictions to excel
 	with pd.ExcelWriter('Predictions_AutoArima.xlsx') as writer:  
 		predictions_co.to_excel(writer, sheet_name = 'CO_AutoArima')
 		predictions_temp.to_excel(writer, sheet_name = 'Temp_AutoArima')
