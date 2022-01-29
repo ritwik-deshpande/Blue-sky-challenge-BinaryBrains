@@ -8,71 +8,82 @@
 </head>
 
 <body>
-  <center>
-    <canvas id="co_chart" width="600" height="400"></canvas>
-    <script>
-var temp_chart = new Chart(document.getElementById("co_chart").getContext("2d"), {
-  type: 'line',
-  data: {
-    labels: {{labels | tojson }},
-    datasets: [{
-        data: {{ actual_temp | tojson }},
-        label: "Actual Value",
-        borderColor: "#3e95cd",
-        fill: false
-      }, {
-        data: {{ predicted_temp | tojson }},
-        label: "Predicted Value",
-        borderColor: "#8e5ea2",
-        fill: false
-      }
-    ]
-  },
-  options: {
-    title: {
-      display: true,
-      text: 'Temperature values for the next 7 days'
+  <form action='/submit_model'+  >
+      <label for="model">Choose a model:</label>
+      <select name="model" id="model">
+        <option value="arima">ARIMA</option>
+        <option value="ses">SES</option>
+        <option value="fbprophet">FB Prophet</option>
+        <option value="lstm">LSTM</option>
+      </select>
+      <br><br>
+    <input type="submit" value="Submit">
+    <center>
+      <canvas id="co_chart" width="600" height="400"></canvas>
+      <script>
+  var temp_chart = new Chart(document.getElementById("co_chart").getContext("2d"), {
+    type: 'line',
+    data: {
+      labels: {{labels | tojson }},
+      datasets: [{
+          data: {{ actual_temp | tojson }},
+          label: "Actual Value",
+          borderColor: "#3e95cd",
+          fill: false
+        }, {
+          data: {{ predicted_temp | tojson }},
+          label: "Predicted Value",
+          borderColor: "#8e5ea2",
+          fill: false
+        }
+      ]
     },
-    hover: {
-     mode: 'index',
-     intersect: true
+    options: {
+      title: {
+        display: true,
+        text: 'Temperature values for the next 7 days'
+      },
+      hover: {
+      mode: 'index',
+      intersect: true
+      }
     }
-  }
-});
-    </script>
+  });
+      </script>
 
-    <canvas id="temp_chart" width="600" height="400"></canvas>
-    <script>
-var temp_chart = new Chart(document.getElementById("temp_chart").getContext("2d"), {
-  type: 'line',
-  data: {
-    labels: {{labels | tojson }},
-    datasets: [{
-        data: {{ actual_co | tojson }},
-        label: "Actual Value",
-        borderColor: "#3e95cd",
-        fill: false
-      }, {
-        data: {{ predicted_co | tojson }},
-        label: "Predicted Value",
-        borderColor: "#8e5ea2",
-        fill: false
-      }
-    ]
-  },
-  options: {
-    title: {
-      display: true,
-      text: 'Carbon Monoxide concentration values for the next 7 days'
+      <canvas id="temp_chart" width="600" height="400"></canvas>
+      <script>
+  var temp_chart = new Chart(document.getElementById("temp_chart").getContext("2d"), {
+    type: 'line',
+    data: {
+      labels: {{labels | tojson }},
+      datasets: [{
+          data: {{ actual_co | tojson }},
+          label: "Actual Value",
+          borderColor: "#3e95cd",
+          fill: false
+        }, {
+          data: {{ predicted_co | tojson }},
+          label: "Predicted Value",
+          borderColor: "#8e5ea2",
+          fill: false
+        }
+      ]
     },
-    hover: {
-     mode: 'index',
-     intersect: true
-    },
-    responsive: true
-  }
-});
-    </script>
-  </center>
+    options: {
+      title: {
+        display: true,
+        text: 'Carbon Monoxide concentration values for the next 7 days'
+      },
+      hover: {
+      mode: 'index',
+      intersect: true
+      },
+      responsive: true
+    }
+  });
+      </script>
+    </center>
+  </form>
 </body>
 </html>

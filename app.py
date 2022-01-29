@@ -1,6 +1,6 @@
 import pandas as pd
 from turtle import st
-from flask import Flask, Markup, render_template
+from flask import Flask, request, Markup, render_template
 from ml_models import auto_arima, fbprophet, ses
 from ml_models import data_preprocess as dp
 app = Flask(__name__)
@@ -28,11 +28,11 @@ colors = [
     "#ABCDEF", "#DDDDDD", "#ABCABC", "#4169E1",
     "#C71585", "#FF4500", "#FEDCBA", "#46BFBD"]
 
-# @app.route('/line')
-# def line():
-#     line_labels=labels
-#     return render_template('line_chart.html', title='Temp and CO Forecasting', max=17000, labels=line_labels,
-#                            actual = co_conc, predicted = multiplied_list)
+@app.route('/submit_model')
+def line():
+    text = request.form['model']
+    return render_template('line_chart.html', title='Temp and CO Forecasting', max=17000, labels=[],
+                           actual_temp = [], predicted_temp = [], actual_co = [], predicted_co = [])
 
 
 """ Temp & CO predictions using ARIMA """
@@ -48,7 +48,7 @@ def arima_T():
 @app.route('/fbprophet')
 def fb_prophet():
     mape_prophet, predictions_co, predictions_temp = fbprophet.fbprophet_predictions_all()
-    return render_template('line_chart.html', title= 'CO Predictions by ARIMA', max=100, labels= predictions_prophet.index.to_list(),
+    return render_template('line_chart.html', title= 'CO Predictions by ARIMA', max=100, labels= predictions_co.index.to_list(),
                             actual_temp = predictions_temp['TEMP'].to_list(), predicted_temp = predictions_temp['PREDICTED_TEMP_PROPHET'].to_list(),
                             actual_co = predictions_co['CO'].to_list(), predicted_co = predictions_co['PREDICTED_CO_PROPHET'].to_list())
 
