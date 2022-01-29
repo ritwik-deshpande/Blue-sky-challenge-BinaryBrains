@@ -58,7 +58,7 @@ def preprocess():
 		if (pd.isna(df.loc[i - 1, 'AVG_CO'])) & (pd.isna(df.loc[i + 1, 'AVG_CO'])):
 			df.at[i, 'AVG_CO'] = (df.loc[i - 1, 'AVG_CO'] + df.loc[i + 1, 'AVG_CO']) / 2
 		else:
-		    df.at[i, 'AVG_CO'] = df.loc[i - 1, 'AVG_CO']
+			df.at[i, 'AVG_CO'] = df.loc[i - 1, 'AVG_CO']
 		
 		df.at[i, 'SMA_CO_1_DAY'] = np.mean(df.loc[i - 24 : i, 'SMA_CO_1_DAY'])
 		df.at[i, 'SMA_CO_7_DAY'] = np.mean(df.loc[i - 162 : i, 'SMA_CO_7_DAY'])

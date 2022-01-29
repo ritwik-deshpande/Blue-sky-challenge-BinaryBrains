@@ -31,9 +31,9 @@ def fbprophet(cols, param):
 
 		# Get train set and test set
 		test = df[(df['DATE_TIME'].dt.date == d)].reset_index(drop = True)
-  		train_df = df[(df['DATE_TIME'].dt.date >= train_start_date) & (df['DATE_TIME'].dt.date < d)].sort_values(by = ['DATE_TIME']).dropna(subset = [param])
-  		
-  		output_df = test[['DATE_TIME', 'CO_CONC']].reset_index(drop = True).dropna(subset = [param])
+		train_df = df[(df['DATE_TIME'].dt.date >= train_start_date) & (df['DATE_TIME'].dt.date < d)].sort_values(by = ['DATE_TIME']).dropna(subset = [param])
+		
+		output_df = test[['DATE_TIME', 'CO_CONC']].reset_index(drop = True).dropna(subset = [param])
 
 		# Iterate through the feature engineered columns and make predictions using each of them
 		for col in cols:
