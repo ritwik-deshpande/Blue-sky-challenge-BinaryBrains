@@ -38,16 +38,16 @@ def line():
 """ Temp & CO predictions using ARIMA """
 @app.route('/arima')
 def arima_T():
-    mape_arima, predictions_arima = auto_arima.arima_predictions_all()
-    return render_template('line_chart.html', title= 'TEMP Predictions by ARIMA', max=100, labels= predictions_arima.index.to_list(),
-                            actual_temp = predictions_arima['TEMP'].to_list(), predicted_temp = predictions_arima['PREDICTED_TEMP_ARIMA'].to_list(),
-                            actual_co = predictions_arima['CO'].to_list(), predicted_co = predictions_arima['PREDICTED_CO_ARIMA'].to_list())
+    mape_co, mape_temp, predictions_co, predictions_temp = auto_arima.arima_predictions_all()
+    return render_template('line_chart.html', title= 'TEMP Predictions by ARIMA', max=100, labels= predictions_co.index.to_list(),
+                            actual_temp = predictions_temp['TEMP'].to_list(), predicted_temp = predictions_temp['PREDICTED_TEMP_ARIMA'].to_list(),
+                            actual_co = predictions_co['CO'].to_list(), predicted_co = predictions_co['PREDICTED_CO_ARIMA'].to_list())
 
 
 """ Temp & CO predictions using FB Prophet """
 @app.route('/fbprophet')
 def fb_prophet():
-    mape_prophet, predictions_co, predictions_temp = fbprophet.fbprophet_predictions_all()
+    mape_co, mape_temp, predictions_co, predictions_temp = fbprophet.fbprophet_predictions_all()
     return render_template('line_chart.html', title= 'CO Predictions by ARIMA', max=100, labels= predictions_co.index.to_list(),
                             actual_temp = predictions_temp['TEMP'].to_list(), predicted_temp = predictions_temp['PREDICTED_TEMP_PROPHET'].to_list(),
                             actual_co = predictions_co['CO'].to_list(), predicted_co = predictions_co['PREDICTED_CO_PROPHET'].to_list())
@@ -56,11 +56,10 @@ def fb_prophet():
 """ Temp & CO predictions using SES """
 @app.route('/ses')
 def ses_T():
-    mape_ses, predictions_ses = ses.ses_predictions_all()
-    print("SES_TEMP")
-    return render_template('line_chart.html', title= 'TEMP Predictions by SES', max=100, labels= predictions_ses.index.to_list(),
-                            actual_temp = predictions_ses['TEMP'].to_list(), predicted_temp = predictions_ses['PREDICTED_TEMP_SES'].to_list(),
-                            actual_co = predictions_ses['CO'].to_list(), predicted_co = predictions_ses['PREDICTED_CO_SES'].to_list())
+    mape_co, mape_temp, predictions_co, predictions_temp = ses.exponential_smoothing_predictions_all()
+    return render_template('line_chart.html', title= 'TEMP Predictions by SES', max=100, labels= predictions_temp.index.to_list(),
+                            actual_temp = predictions_temp['TEMP'].to_list(), predicted_temp = predictions_temp['PREDICTED_TEMP_SES'].to_list(),
+                            actual_co = predictions_co['CO'].to_list(), predicted_co = predictions_co['PREDICTED_CO_SES'].to_list())
 
 
 """ Temp & CO predictions using LSTM """
