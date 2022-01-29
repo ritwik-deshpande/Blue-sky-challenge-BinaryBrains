@@ -67,5 +67,3 @@ def ses_predictions_all():
 	predictions_conact_arima = pd.concat([predictions_temp, predictions_co], axis = 1)
 
 	return mape_concat_arima, predictions_conact_arima
-  
-mape, pred = ses_predictions_all()
