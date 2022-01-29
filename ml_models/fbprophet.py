@@ -79,7 +79,7 @@ def fbprophet(cols, param):
 		mape_df = pd.DataFrame(mape_list, columns = cols, index = test_dates)
 		mape_df.loc['MAPE'] = mape_df.mean()
 
-	return mape_df, predicitons
+	return mape_df, predictions
 
 def fbprophet_predictions_all():
 	cols_co = ['CO', 'LIN_INTERPOLATE_CO', 'BFILL_CO', 'FFILL_CO', 'SMA_CO_1_DAY', 'SMA_CO_7_DAY', 'AVG_CO']
