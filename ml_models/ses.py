@@ -61,7 +61,8 @@ def exponential_smoothing_predictions_all():
 	# Get CO and TEMP predicitons using auto_arima
 	mape_co, predictions_co = exponential_smoothing('CO')
 	mape_temp, predictions_temp = exponential_smoothing('TEMP')
-
+	
+	# Write predictions to excel
 	with pd.ExcelWriter('Predictions_ExponentialSmoothing.xlsx') as writer:  
 		predictions_co.to_excel(writer, sheet_name = 'CO_ExponentialSmoothing')
 		predictions_temp.to_excel(writer, sheet_name = 'Temp_ExponentialSmoothing')
