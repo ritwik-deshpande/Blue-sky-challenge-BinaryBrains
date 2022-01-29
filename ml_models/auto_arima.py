@@ -1,5 +1,5 @@
 # Import data_preprocess.py
-from ml_models import data_preprocess
+import data_preprocess
 
 # Import modules
 from datetime import date, datetime
@@ -30,10 +30,10 @@ def arima(col):
 		mape_value = []
 
 		# Get train set
-		train = df[(df['DATE_TIME'].dt.date >= train_start_date) & (df['DATE_TIME'].dt.date < d)].set_index('DATE_TIME').dropna()
+		train = df[(df['DATE_TIME'].dt.date >= train_start_date) & (df['DATE_TIME'].dt.date < d)].set_index('DATE_TIME').dropna(subset = [col])
 
 		# Get test set	
-		test = df[(df['DATE_TIME'].dt.date == d)].set_index('DATE_TIME').dropna()
+		test = df[(df['DATE_TIME'].dt.date == d)].set_index('DATE_TIME').dropna(subset = [col])
 
 		# Exogneous factors (month encoding not considered as the train and test set have same month for all values)
 		exog_train = train[['DAY_sin', 'DAY_cos', 'HOUR_sin', 'HOUR_cos']]
@@ -65,8 +65,9 @@ def arima_predictions_all():
 	mape_co, predictions_co = arima('CO')
 	mape_temp, predictions_temp = arima('TEMP')
 
-	# Concat mape, predictions for both columns
-	mape_concat_arima = pd.concat([mape_temp, mape_co], axis = 1)
-	predictions_concat_arima = pd.concat([predictions_temp, predictions_co], axis = 1)
+	# Write predictions to excel
+	with pd.ExcelWriter('Predictions_AutoArima.xlsx') as writer:  
+		predictions_co.to_excel(writer, sheet_name = 'CO_AutoArima')
+		predictions_temp.to_excel(writer, sheet_name = 'Temp_AutoArima')
 
-	return mape_concat_arima, predictions_concat_arima
+	return mape_co, mape_temp, predictions_co, predictions_temp

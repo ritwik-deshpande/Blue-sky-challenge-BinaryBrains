@@ -1,5 +1,5 @@
 # Import data_preprocess.py
-from ml_models import data_preprocess
+import data_preprocess
 
 # Import modules
 from datetime import date, datetime
@@ -10,7 +10,7 @@ from sklearn.metrics import mean_absolute_percentage_error
 import warnings
 warnings.filterwarnings("ignore")
 
-def simple_exponential_smoothing(col):
+def exponential_smoothing(col):
 	# Get data from data_preprocess.py
 	df = data_preprocess.preprocess()
 
@@ -31,15 +31,15 @@ def simple_exponential_smoothing(col):
 		mape_value = []
 
 		# Get train set
-		train = df[(df['DATE_TIME'].dt.date >= train_start_date) & (df['DATE_TIME'].dt.date < d)].set_index('DATE_TIME').dropna()
+		train = df[(df['DATE_TIME'].dt.date >= train_start_date) & (df['DATE_TIME'].dt.date < d)].set_index('DATE_TIME').dropna(subset = [col])
 
 		# Get test set	
-		test = df[(df['DATE_TIME'].dt.date == d)].set_index('DATE_TIME').dropna()
+		test = df[(df['DATE_TIME'].dt.date == d)].set_index('DATE_TIME').dropna(subset = [col])
 
 		# Train model and make predictions
 		model = ExponentialSmoothing(train[col], seasonal = 'mul', seasonal_periods = 24).fit()
 		pred = np.array(model.forecast(len(test)))
-		test['PREDICTED_' + col +'_SES'] = pred
+		test['PREDICTED_' + col + '_SES'] = pred
 
 		# Calculate MAPE
 		mape_value.append(mean_absolute_percentage_error(test[col], test['PREDICTED_' + col + '_SES']))
@@ -57,15 +57,14 @@ def simple_exponential_smoothing(col):
 	return mape_df, predictions
 
 
-def ses_predictions_all():
+def exponential_smoothing_predictions_all():
 	# Get CO and TEMP predicitons using auto_arima
-	mape_co, predictions_co = simple_exponential_smoothing('CO')
-	mape_temp, predictions_temp = simple_exponential_smoothing('TEMP')
+	mape_co, predictions_co = exponential_smoothing('CO')
+	mape_temp, predictions_temp = exponential_smoothing('TEMP')
+	
+	# Write predictions to excel
+	with pd.ExcelWriter('Predictions_ExponentialSmoothing.xlsx') as writer:  
+		predictions_co.to_excel(writer, sheet_name = 'CO_ExponentialSmoothing')
+		predictions_temp.to_excel(writer, sheet_name = 'Temp_ExponentialSmoothing')
 
-	# Concat mape, predictions for both columns
-	mape_concat_arima = pd.concat([mape_temp, mape_co], axis = 1)
-	predictions_conact_arima = pd.concat([predictions_temp, predictions_co], axis = 1)
-
-	return mape_concat_arima, predictions_conact_arima
-  
-mape, pred = ses_predictions_all()
+	return mape_co, mape_temp, predictions_co, predictions_temp
