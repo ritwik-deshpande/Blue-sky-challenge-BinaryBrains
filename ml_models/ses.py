@@ -1,5 +1,5 @@
 # Import data_preprocess.py
-import data_preprocess
+from ml_models import data_preprocess
 
 # Import modules
 from datetime import date, datetime
