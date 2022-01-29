@@ -7,8 +7,6 @@ import pandas as pd
 import numpy as np
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 from sklearn.metrics import mean_absolute_percentage_error
-import warnings
-warnings.filterwarnings("ignore")
 
 def exponential_smoothing(col):
 	# Get data from data_preprocess.py
