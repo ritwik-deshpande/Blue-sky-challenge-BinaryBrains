@@ -39,13 +39,13 @@ def exponential_smoothing(col):
 		# Train model and make predictions
 		model = ExponentialSmoothing(train[col], seasonal = 'mul', seasonal_periods = 24).fit()
 		pred = np.array(model.forecast(len(test)))
-		test[col + '_ExponentialSmoothing'] = pred
+		test['PREDICTED_' + col + '_SES'] = pred
 
 		# Calculate MAPE
-		mape_value.append(mean_absolute_percentage_error(test[col], test[col + '_ExponentialSmoothing']))
+		mape_value.append(mean_absolute_percentage_error(test[col], test['PREDICTED_' + col + '_SES']))
 
 		# Append results
-		test_filtered = test[[col, col + '_ExponentialSmoothing']]
+		test_filtered = test[[col, 'PREDICTED_' + col + '_SES']]
 		predictions = predictions.append(test_filtered)
 		mape_list.append(mape_value)
 
