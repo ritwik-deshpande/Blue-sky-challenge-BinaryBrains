@@ -66,7 +66,7 @@ def fbprophet(cols, param):
 			mape_values.append(mean_absolute_percentage_error(test[col], forecast.yhat))
 
 			# Generate output df
-			output_df[col] = forecast.yhat
+			output_df['PREDICTED_' + col + 'FBPROPHET'] = forecast.yhat
 			predictions = predictions.append(output_df)
 
 		# Drop NaN's resulting from append operation
