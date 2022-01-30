@@ -18,7 +18,7 @@ def calculate_mape(actual, forecast):
 
     # Calculate the MAPE
     MAPE = sum(APE) / len(APE)
-    return MAPE
+    return round(MAPE, 2)
 
 
 def get_mape_values(actual, forecast):
@@ -38,8 +38,8 @@ def get_arima_op(models):
 
     return render_template('line_chart.html',
                            days = days,
-                           avg_mape_co=sum(mape_values_co) / len(mape_values_co),
-                           avg_mape_temp=sum(mape_values_temp) / len(mape_values_temp),
+                           avg_mape_co= round(sum(mape_values_co) / len(mape_values_co),2),
+                           avg_mape_temp=round(sum(mape_values_temp) / len(mape_values_temp),2),
                            mape_values_temp = mape_values_temp,
                            mape_values_co = mape_values_co,
                            models = models, model_name = 'Arima', title = 'Temp and CO Predictions by ARIMA', max=100,
@@ -61,8 +61,8 @@ def get_ses_op(models):
 
     return render_template('line_chart.html',
                            days = days,
-                           avg_mape_co=sum(mape_values_co) / len(mape_values_co),
-                           avg_mape_temp=sum(mape_values_temp) / len(mape_values_temp),
+                           avg_mape_co=round(sum(mape_values_co) / len(mape_values_co),2),
+                           avg_mape_temp=round(sum(mape_values_temp) / len(mape_values_temp),2),
                            mape_values_temp = mape_values_temp,
                            mape_values_co = mape_values_co,
                            models = models,model_name = 'Exponential Smoothening',
@@ -85,8 +85,8 @@ def get_fbprophet_op(models):
 
     return render_template('line_chart.html',
                            days = days,
-                           avg_mape_co=sum(mape_values_co) / len(mape_values_co),
-                           avg_mape_temp=sum(mape_values_temp) / len(mape_values_temp),
+                           avg_mape_co=round(sum(mape_values_co) / len(mape_values_co),2),
+                           avg_mape_temp=round(sum(mape_values_temp) / len(mape_values_temp),2),
                            mape_values_temp=mape_values_temp,
                            mape_values_co=mape_values_co,
                            models = models,model_name = 'FB Prophet' ,title= 'TEMP Predictions by Fb Prophet', max=100,
@@ -108,8 +108,8 @@ def get_neuralprophet_op(models):
 
     return render_template('line_chart.html',
                            days=days,
-                           avg_mape_co=sum(mape_values_co) / len(mape_values_co),
-                           avg_mape_temp=sum(mape_values_temp) / len(mape_values_temp),
+                           avg_mape_co=round(sum(mape_values_co) / len(mape_values_co),2),
+                           avg_mape_temp=round(sum(mape_values_temp) / len(mape_values_temp),2),
                            mape_values_temp=mape_values_temp,
                            mape_values_co=mape_values_co,
                            models = models,model_name = 'Neural Prophet' ,title= 'TEMP Predictions by Neural Prophet', max=100,
@@ -132,8 +132,8 @@ def get_lstm_op(models):
 
     return render_template('line_chart.html',
                            days=days,
-                           avg_mape_co = sum(mape_values_co)/len(mape_values_co),
-                           avg_mape_temp =sum(mape_values_temp) / len(mape_values_temp),
+                           avg_mape_co = round(sum(mape_values_co)/len(mape_values_co),2),
+                           avg_mape_temp =round(sum(mape_values_temp) / len(mape_values_temp),2),
                            mape_values_temp=mape_values_temp,
                            mape_values_co=mape_values_co,
                            models = models,model_name = 'LSTM' ,title= 'TEMP Predictions by LSTM', max=100,
