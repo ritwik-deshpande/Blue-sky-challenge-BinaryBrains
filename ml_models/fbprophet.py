@@ -82,7 +82,7 @@ def fbprophet(cols, param):
 	return mape_df, predictions
 
 def fbprophet_predictions_all():
-	cols_co = ['CO', 'LIN_INTERPOLATE_CO', 'BFILL_CO', 'FFILL_CO', 'SMA_CO_1_DAY', 'SMA_CO_7_DAY', 'AVG_CO']
+	cols_co = ['LIN_INTERPOLATE_CO', 'BFILL_CO', 'FFILL_CO', 'SMA_CO_1_DAY', 'SMA_CO_7_DAY', 'AVG_CO']
 	cols_temp = ['TEMPERATURE']
 
 	# Get CO and TEMP predicitons using fbprophet
