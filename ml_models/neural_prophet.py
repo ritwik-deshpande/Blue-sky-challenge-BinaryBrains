@@ -96,7 +96,7 @@ def predict_neural_prophet(train_start_date, test_dates, model_parameters, df, c
 
 		# Create output df
 		test_filtered = test[['ds', 'y', 'PREDICTED_' + col + '_NEURALPROPHET']]
-		test_filtered.columns = ['DATE', col, 'PREDICTED_' + col + '_NEURALPROPHET']
+		test_filtered.columns = ['DATE_TIME', col, 'PREDICTED_' + col + '_NEURALPROPHET']
 		predictions = predictions.append(test_filtered)
 
 		# Calculate MAPE
