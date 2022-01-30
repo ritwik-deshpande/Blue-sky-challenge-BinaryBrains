@@ -1,10 +1,9 @@
 # Import data_preprocess.py
-from ml_models import data_preprocess
+from ml_models.py_files import data_preprocess
 
 # Import modules
 from datetime import date, datetime
 import pandas as pd
-import numpy as np
 # from fbprophet import Prophet
 from sklearn.metrics import mean_absolute_percentage_error
 

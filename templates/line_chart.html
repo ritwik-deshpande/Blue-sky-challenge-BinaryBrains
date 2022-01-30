@@ -25,7 +25,7 @@ table, th, td {
         <h2>{{ model_name }}</h2>
 
 
-        <h4>MAPE value for CO</h4>
+        <h3>MAPE value for CO</h3>
         <table style="width:100%">
           <tr>
               {% for day in days %}
@@ -38,65 +38,22 @@ table, th, td {
             {% endfor %}
           </tr>
         </table>
+        <h4> Avg 7 day MAPE CO : {{ avg_mape_co }}</h4>
       <canvas id="co_chart" width="600" height="400"></canvas>
-        <script>
+         <script>
   var temp_chart = new Chart(document.getElementById("co_chart").getContext("2d"), {
-    type: 'line',
-    data: {
-      labels: {{labels | tojson }},
-      datasets: [{
-          data: {{ actual_temp | tojson }},
-          label: "Actual Value",
-          borderColor: "#3e95cd",
-          fill: false
-        }, {
-          data: {{ predicted_temp | tojson }},
-          label: "Predicted Value",
-          borderColor: "#8e5ea2",
-          fill: false
-        }
-      ]
-    },
-    options: {
-      title: {
-        display: true,
-        text: 'Temperature values for the next 7 days'
-      },
-      hover: {
-      mode: 'index',
-      intersect: true
-      }
-    }
-  });
-      </script>
-        <h4>MAPE value for Temperature</h4>
-        <table style="width:100%">
-          <tr>
-              {% for day in days %}
-                <td>{{day}}</td>
-            {% endfor %}
-          </tr>
-          <tr>
-            {% for mape in mape_values_temp %}
-                <td>{{mape}}</td>
-            {% endfor %}
-          </tr>
-        </table>
-      <canvas id="temp_chart" width="600" height="400"></canvas>
-      <script>
-  var temp_chart = new Chart(document.getElementById("temp_chart").getContext("2d"), {
     type: 'line',
     data: {
       labels: {{labels | tojson }},
       datasets: [{
           data: {{ actual_co | tojson }},
           label: "Actual Value",
-          borderColor: "#3e95cd",
+          borderColor: "#ff0000",
           fill: false
         }, {
           data: {{ predicted_co | tojson }},
           label: "Predicted Value",
-          borderColor: "#8e5ea2",
+          borderColor: "#0000ff",
           fill: false
         }
       ]
@@ -114,6 +71,53 @@ table, th, td {
     }
   });
       </script>
+
+        <h3>MAPE value for Temperature</h3>
+        <table style="width:100%">
+          <tr>
+              {% for day in days %}
+                <td>{{day}}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            {% for mape in mape_values_temp %}
+                <td>{{mape}}</td>
+            {% endfor %}
+          </tr>
+        </table>
+        <h4> Avg 7 day MAPE Temperature : {{ avg_mape_temp }}</h4>
+      <canvas id="temp_chart" width="600" height="400"></canvas>
+        <script>
+  var temp_chart = new Chart(document.getElementById("temp_chart").getContext("2d"), {
+    type: 'line',
+    data: {
+      labels: {{labels | tojson }},
+      datasets: [{
+          data: {{ actual_temp | tojson }},
+          label: "Actual Value",
+          borderColor: "#ff0000",
+          fill: false
+        }, {
+          data: {{ predicted_temp | tojson }},
+          label: "Predicted Value",
+          borderColor: "#0000ff",
+          fill: false
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Temperature values for the next 7 days'
+      },
+      hover: {
+      mode: 'index',
+      intersect: true
+      }
+    }
+  });
+      </script>
+
     </center>
   </form>
 </body>

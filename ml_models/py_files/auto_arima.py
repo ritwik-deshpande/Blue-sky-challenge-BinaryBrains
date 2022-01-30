@@ -1,14 +1,15 @@
 # Import data_preprocess.py
-from ml_models import data_preprocess
+from ml_models.py_files import data_preprocess
 
 # Import modules
 from datetime import date, datetime
 import pandas as pd
 import numpy as np
-from statsmodels.tsa.holtwinters import ExponentialSmoothing
+import pmdarima as pm
 from sklearn.metrics import mean_absolute_percentage_error
 
-def exponential_smoothing(col):
+
+def arima(col):
 	# Get data from data_preprocess.py
 	df = data_preprocess.preprocess()
 
@@ -34,16 +35,20 @@ def exponential_smoothing(col):
 		# Get test set	
 		test = df[(df['DATE_TIME'].dt.date == d)].set_index('DATE_TIME').dropna(subset = [col])
 
-		# Train model and make predictions
-		model = ExponentialSmoothing(train[col], seasonal = 'mul', seasonal_periods = 24).fit()
-		pred = np.array(model.forecast(len(test)))
-		test['PREDICTED_' + col + '_SES'] = pred
+		# Exogneous factors (month encoding not considered as the train and test set have same month for all values)
+		exog_train = train[['DAY_sin', 'DAY_cos', 'HOUR_sin', 'HOUR_cos']]
+		exog_test = test[['DAY_sin', 'DAY_cos', 'HOUR_sin', 'HOUR_cos']]
+
+		# auto_arima model training and predictions
+		model = pm.auto_arima(y = train[col], X = exog_train, start_p = 1, start_q = 1, test_g = 'adf', seasonal = False).fit(train[col])
+		pred = np.array(model.predict(n_periods = len(test), X = exog_test))
+		test['PREDICTED_' + col + '_ARIMA'] = pred
 
 		# Calculate MAPE
-		mape_value.append(mean_absolute_percentage_error(test[col], test['PREDICTED_' + col + '_SES']))
+		mape_value.append(mean_absolute_percentage_error(test[col], test['PREDICTED_' + col + '_ARIMA']))
 
 		# Append results
-		test_filtered = test[[col, 'PREDICTED_' + col + '_SES']]
+		test_filtered = test[[col, 'PREDICTED_' + col + '_ARIMA']]
 		predictions = predictions.append(test_filtered)
 		mape_list.append(mape_value)
 
@@ -55,14 +60,14 @@ def exponential_smoothing(col):
 	return mape_df, predictions
 
 
-def exponential_smoothing_predictions_all():
+def arima_predictions_all():
 	# Get CO and TEMP predicitons using auto_arima
-	mape_co, predictions_co = exponential_smoothing('CO')
-	mape_temp, predictions_temp = exponential_smoothing('TEMP')
-	
+	mape_co, predictions_co = arima('CO')
+	mape_temp, predictions_temp = arima('TEMP')
+
 	# Write predictions to excel
-	with pd.ExcelWriter('Predictions_ExponentialSmoothing.xlsx') as writer:  
-		predictions_co.to_excel(writer, sheet_name = 'CO_ExponentialSmoothing')
-		predictions_temp.to_excel(writer, sheet_name = 'Temp_ExponentialSmoothing')
+	with pd.ExcelWriter('Predictions_AutoArima.xlsx') as writer:  
+		predictions_co.to_excel(writer, sheet_name = 'CO_AutoArima')
+		predictions_temp.to_excel(writer, sheet_name = 'Temp_AutoArima')
 
 	return mape_co, mape_temp, predictions_co, predictions_temp

@@ -38,6 +38,8 @@ def get_arima_op(models):
 
     return render_template('line_chart.html',
                            days = days,
+                           avg_mape_co=sum(mape_values_co) / len(mape_values_co),
+                           avg_mape_temp=sum(mape_values_temp) / len(mape_values_temp),
                            mape_values_temp = mape_values_temp,
                            mape_values_co = mape_values_co,
                            models = models, model_name = 'Arima', title = 'Temp and CO Predictions by ARIMA', max=100,
@@ -59,6 +61,8 @@ def get_ses_op(models):
 
     return render_template('line_chart.html',
                            days = days,
+                           avg_mape_co=sum(mape_values_co) / len(mape_values_co),
+                           avg_mape_temp=sum(mape_values_temp) / len(mape_values_temp),
                            mape_values_temp = mape_values_temp,
                            mape_values_co = mape_values_co,
                            models = models,model_name = 'Exponential Smoothening',
@@ -81,6 +85,8 @@ def get_fbprophet_op(models):
 
     return render_template('line_chart.html',
                            days = days,
+                           avg_mape_co=sum(mape_values_co) / len(mape_values_co),
+                           avg_mape_temp=sum(mape_values_temp) / len(mape_values_temp),
                            mape_values_temp=mape_values_temp,
                            mape_values_co=mape_values_co,
                            models = models,model_name = 'FB Prophet' ,title= 'TEMP Predictions by Fb Prophet', max=100,
@@ -102,6 +108,8 @@ def get_neuralprophet_op(models):
 
     return render_template('line_chart.html',
                            days=days,
+                           avg_mape_co=sum(mape_values_co) / len(mape_values_co),
+                           avg_mape_temp=sum(mape_values_temp) / len(mape_values_temp),
                            mape_values_temp=mape_values_temp,
                            mape_values_co=mape_values_co,
                            models = models,model_name = 'Neural Prophet' ,title= 'TEMP Predictions by Neural Prophet', max=100,
@@ -114,20 +122,23 @@ def get_neuralprophet_op(models):
 
 """" Temp & CO predictions using Neural Prophet """
 def get_lstm_op(models):
-    lstm_co_op = pd.read_csv('./Data/LSTM_co_pred.csv')
-    lstm_temp_op = pd.read_csv('./Data/LSTM_temp_pred.csv')
+    lstm_co_op = pd.read_csv('./Data/Predictions_LSTM_CO.csv')
+    lstm_temp_op = pd.read_csv('./Data/Predictions_LSTM_Temp.csv')
 
-    mape_values_temp = get_mape_values(lstm_temp_op['TEMP'].to_list(),
+
+    mape_values_temp = get_mape_values(lstm_temp_op['temp_actual'].to_list(),
                                        lstm_temp_op['temp_predict'].to_list())
-    mape_values_co = get_mape_values(lstm_co_op['CO'].to_list(), lstm_co_op['CO_predict'].to_list())
+    mape_values_co = get_mape_values(lstm_co_op['CO_actual'].to_list(), lstm_co_op['CO_predict'].to_list())
 
     return render_template('line_chart.html',
                            days=days,
+                           avg_mape_co = sum(mape_values_co)/len(mape_values_co),
+                           avg_mape_temp =sum(mape_values_temp) / len(mape_values_temp),
                            mape_values_temp=mape_values_temp,
                            mape_values_co=mape_values_co,
                            models = models,model_name = 'LSTM' ,title= 'TEMP Predictions by LSTM', max=100,
-                           labels= lstm_co_op['DATE'].to_list(),
-                            actual_temp = lstm_temp_op['TEMP'].to_list(),
+                           labels= lstm_co_op['Date'].to_list(),
+                            actual_temp = lstm_temp_op['temp_actual'].to_list(),
                            predicted_temp = lstm_temp_op['temp_predict'].to_list(),
-                            actual_co = lstm_co_op['CO'].to_list(),
+                            actual_co = lstm_co_op['CO_actual'].to_list(),
                            predicted_co = lstm_co_op['CO_predict'].to_list())
