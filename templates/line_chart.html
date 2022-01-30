@@ -6,21 +6,40 @@
   <title>{{ title }}</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 </head>
-
+<style>
+table, th, td {
+  border:1px solid black;
+}
+</style>
 <body>
-  <form action='/submit_model'+  >
+  <form action='/submit_model' >
       <label for="model">Choose a model:</label>
       <select name="model" id="model">
-        <option value="arima">ARIMA</option>
-        <option value="ses">SES</option>
-        <option value="fbprophet">FB Prophet</option>
-        <option value="lstm">LSTM</option>
+          {% for model in models %}
+        <option value="{{model}}">{{model}}</option>
+        {% endfor %}
       </select>
       <br><br>
     <input type="submit" value="Submit">
     <center>
+        <h2>{{ model_name }}</h2>
+
+
+        <h4>MAPE value for CO</h4>
+        <table style="width:100%">
+          <tr>
+              {% for day in days %}
+                <td>{{day}}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            {% for mape in mape_values_co %}
+                <td>{{mape}}</td>
+            {% endfor %}
+          </tr>
+        </table>
       <canvas id="co_chart" width="600" height="400"></canvas>
-      <script>
+        <script>
   var temp_chart = new Chart(document.getElementById("co_chart").getContext("2d"), {
     type: 'line',
     data: {
@@ -50,7 +69,19 @@
     }
   });
       </script>
-
+        <h4>MAPE value for Temperature</h4>
+        <table style="width:100%">
+          <tr>
+              {% for day in days %}
+                <td>{{day}}</td>
+            {% endfor %}
+          </tr>
+          <tr>
+            {% for mape in mape_values_temp %}
+                <td>{{mape}}</td>
+            {% endfor %}
+          </tr>
+        </table>
       <canvas id="temp_chart" width="600" height="400"></canvas>
       <script>
   var temp_chart = new Chart(document.getElementById("temp_chart").getContext("2d"), {

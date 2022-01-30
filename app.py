@@ -1,86 +1,32 @@
-import pandas as pd
-from turtle import st
-from flask import Flask, request, Markup, render_template
-from ml_models import auto_arima, fbprophet, ses, neural_prophet
-from ml_models import data_preprocess as dp
+from flask import Flask, request
 app = Flask(__name__)
+from render_model_op import *
 
-# labels = [
-#     'JAN', 'FEB', 'MAR', 'APR',
-#     'MAY', 'JUN', 'JUL', 'AUG',
-#     'SEP', 'OCT', 'NOV', 'DEC'
-# ]
+model_op_mapper =dict()
+model_op_mapper['arima'] = get_arima_op
+model_op_mapper['fbprophet'] = get_fbprophet_op
+model_op_mapper['ses'] = get_ses_op
+model_op_mapper['neuralprophet'] = get_neuralprophet_op
+model_op_mapper['lstm'] = get_lstm_op
 
-# co_conc = [
-#     967.67, 1190.89, 1079.75, 1349.19,
-#     2328.91, 2504.28, 2873.83, 4764.87,
-#     4349.29, 6458.30, 9907, 16297
-# ]
+models = ['lstm','arima', 'fbprophet', 'ses', 'neuralprophet']
 
-# temperature = [
-#     96.67, 10.89, 1079.75, 139.19,
-#     22.91, 254.28, 2873.83, 764.87,
-#     49.29, 658.30, 9907, 697
-# ]
-
-colors = [
-    "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA",
-    "#ABCDEF", "#DDDDDD", "#ABCABC", "#4169E1",
-    "#C71585", "#FF4500", "#FEDCBA", "#46BFBD"]
-
-@app.route('/submit_model')
-def line():
-    text = request.form['model']
-    return render_template('line_chart.html', title='Temp and CO Forecasting', max=17000, labels=[],
+@app.route('/')
+def home():
+    return render_template('line_chart.html', models = models, title='Temp and CO Forecasting', max=17000, labels=[],
                            actual_temp = [], predicted_temp = [], actual_co = [], predicted_co = [])
 
 
-""" Temp & CO predictions using ARIMA """
-@app.route('/arima')
-def arima_T():
-    mape_co, mape_temp, predictions_co, predictions_temp = auto_arima.arima_predictions_all()
-    return render_template('line_chart.html', title= 'TEMP Predictions by ARIMA', max=100, labels= predictions_co.index.to_list(),
-                            actual_temp = predictions_temp['TEMP'].to_list(), predicted_temp = predictions_temp['PREDICTED_TEMP_ARIMA'].to_list(),
-                            actual_co = predictions_co['CO'].to_list(), predicted_co = predictions_co['PREDICTED_CO_ARIMA'].to_list())
+@app.route('/submit_model')
+def get_model_op():
+    model_name = request.args['model']
+    model_index = models.index(model_name)
+    models[model_index] = models[0]
+    models[0] = model_name
+    return model_op_mapper[model_name](models)
 
 
-""" Temp & CO predictions using FB Prophet """
-@app.route('/fbprophet')
-def fb_prophet():
-    mape_co, mape_temp, predictions_co, predictions_temp = fbprophet.fbprophet_predictions_all()
-    return render_template('line_chart.html', title= 'CO Predictions by ARIMA', max=100, labels= predictions_co.index.to_list(),
-                            actual_temp = predictions_temp['TEMP'].to_list(), predicted_temp = predictions_temp['PREDICTED_TEMP_PROPHET'].to_list(),
-                            actual_co = predictions_co['CO'].to_list(), predicted_co = predictions_co['PREDICTED_CO_PROPHET'].to_list())
 
-
-""" Temp & CO predictions using neural Prophet """
-@app.route('/neural_prophet')
-def fb_prophet():
-    mape_co, mape_temp, predictions_co, predictions_temp = neural_prophet.neural_prophet_predictions_all
-    return render_template('line_chart.html', title= 'CO Predictions by ARIMA', max=100, labels= predictions_co.index.to_list(),
-                            actual_temp = predictions_temp['TEMP'].to_list(), predicted_temp = predictions_temp['PREDICTED_TEMP_PROPHET'].to_list(),
-                            actual_co = predictions_co['CO'].to_list(), predicted_co = predictions_co['PREDICTED_CO_PROPHET'].to_list())
-
-
-""" Temp & CO predictions using SES """
-@app.route('/ses')
-def ses_T():
-    mape_co, mape_temp, predictions_co, predictions_temp = ses.exponential_smoothing_predictions_all()
-    return render_template('line_chart.html', title= 'TEMP Predictions by SES', max=100, labels= predictions_temp.index.to_list(),
-                            actual_temp = predictions_temp['TEMP'].to_list(), predicted_temp = predictions_temp['PREDICTED_TEMP_SES'].to_list(),
-                            actual_co = predictions_co['CO'].to_list(), predicted_co = predictions_co['PREDICTED_CO_SES'].to_list())
-
-
-""" Temp & CO predictions using LSTM """
-@app.route('/lstm')
-def lstm_T():
-    lstm_temp_pred = pd.read_csv('Data/temp_pred.csv', header=0, names=['Temp'])
-    temp_pred_list = lstm_temp_pred['Temp'].to_list()
-    mape_ses, predictions_ses = ses.ses_predictions_all()
-    print("SES_TEMP")
-    return render_template('line_chart.html', title= 'TEMP Predictions by SES', max=100, labels= predictions_ses.index.to_list(),
-                            actual_temp = predictions_ses['TEMP'].to_list(), predicted_temp = temp_pred_list,
-                            actual_co = predictions_ses['CO'].to_list(), predicted_co = predictions_ses['PREDICTED_CO_SES'].to_list())
 
 
 if __name__ == '__main__':
