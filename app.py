@@ -19,11 +19,14 @@ def home():
 
 @app.route('/submit_model')
 def get_model_op():
-    model_name = request.args['model']
-    model_index = models.index(model_name)
-    models[model_index] = models[0]
-    models[0] = model_name
-    return model_op_mapper[model_name](models)
+    try:
+        model_name = request.args['model']
+        model_index = models.index(model_name)
+        models[model_index] = models[0]
+        models[0] = model_name
+        return model_op_mapper[model_name](models)
+    except Exception as ex:
+        return str(ex)
 
 
 
