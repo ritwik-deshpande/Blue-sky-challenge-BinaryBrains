@@ -1,5 +1,7 @@
 # Blue-sky-challenge-BinaryBrains
 
+This application is a submission by the team BinaryBrains for [The Blue Sky Challenge](https://www.hackerearth.com/challenges/hackathon/ieee-machine-learning-hackathon/) under sub-theme 2: Blue Sky Below, Forecasting Sensor Measurements in Smart Air Quality Monitoring System
+
 # UI app for IEEE Hackathon
 This is a flask application to view the comparisons between the actual and predicted air-quality parameters(CO and Temp)
 
