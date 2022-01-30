@@ -5,7 +5,7 @@ from ml_models import data_preprocess
 from datetime import date, datetime
 import pandas as pd
 import numpy as np
-from fbprophet import Prophet
+# from fbprophet import Prophet
 from sklearn.metrics import mean_absolute_percentage_error
 
 def fbprophet(cols, param):

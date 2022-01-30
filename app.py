@@ -1,7 +1,7 @@
 import pandas as pd
 from turtle import st
 from flask import Flask, request, Markup, render_template
-from ml_models import auto_arima, fbprophet, ses
+from ml_models import auto_arima, fbprophet, ses, neural_prophet
 from ml_models import data_preprocess as dp
 app = Flask(__name__)
 
@@ -48,6 +48,15 @@ def arima_T():
 @app.route('/fbprophet')
 def fb_prophet():
     mape_co, mape_temp, predictions_co, predictions_temp = fbprophet.fbprophet_predictions_all()
+    return render_template('line_chart.html', title= 'CO Predictions by ARIMA', max=100, labels= predictions_co.index.to_list(),
+                            actual_temp = predictions_temp['TEMP'].to_list(), predicted_temp = predictions_temp['PREDICTED_TEMP_PROPHET'].to_list(),
+                            actual_co = predictions_co['CO'].to_list(), predicted_co = predictions_co['PREDICTED_CO_PROPHET'].to_list())
+
+
+""" Temp & CO predictions using neural Prophet """
+@app.route('/neural_prophet')
+def fb_prophet():
+    mape_co, mape_temp, predictions_co, predictions_temp = neural_prophet.neural_prophet_predictions_all
     return render_template('line_chart.html', title= 'CO Predictions by ARIMA', max=100, labels= predictions_co.index.to_list(),
                             actual_temp = predictions_temp['TEMP'].to_list(), predicted_temp = predictions_temp['PREDICTED_TEMP_PROPHET'].to_list(),
                             actual_co = predictions_co['CO'].to_list(), predicted_co = predictions_co['PREDICTED_CO_PROPHET'].to_list())
