@@ -11,7 +11,7 @@ On the cloud platform there were certain hinderance to install all the required 
 To build & run the application in your local:
 
 1. Clone [Blue-sky-challenge-BinaryBrains](https://github.com/ritwik-deshpande/Blue-sky-challenge-BinaryBrains.git)
-2. Install the python packages given in the requirements.txt
+2. Install the python packages given in the requirements.txt. Use the command `pip install -r requirements.txt`
 3. Run py files directly from CLI interface, for example:
       LSTM temperature model -> python3 LSTM_temp.py
       LSTM CO model -> python3 LSTM_co.py
