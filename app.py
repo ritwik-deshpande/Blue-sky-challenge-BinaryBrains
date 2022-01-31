@@ -3,13 +3,13 @@ app = Flask(__name__)
 from render_model_op import *
 
 model_op_mapper =dict()
-model_op_mapper['arima'] = get_arima_op
-model_op_mapper['fbprophet'] = get_fbprophet_op
-model_op_mapper['ses'] = get_ses_op
-model_op_mapper['neuralprophet'] = get_neuralprophet_op
-model_op_mapper['lstm'] = get_lstm_op
+model_op_mapper['Auto_Arima'] = get_arima_op
+model_op_mapper['FaceBook_Prophet'] = get_fbprophet_op
+model_op_mapper['Exponential_Smoothing'] = get_ses_op
+model_op_mapper['NeuralProphet'] = get_neuralprophet_op
+model_op_mapper['LSTM'] = get_lstm_op
 
-models = ['lstm','arima', 'fbprophet', 'ses', 'neuralprophet']
+models = ['LSTM','Auto_Arima', 'FaceBook_Prophet', 'Exponential_Smoothing', 'NeuralProphet']
 
 @app.route('/')
 def home():

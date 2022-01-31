@@ -18,7 +18,7 @@ def calculate_mape(actual, forecast):
 
     # Calculate the MAPE
     MAPE = sum(APE) / len(APE)
-    return round(MAPE, 2)
+    return round(MAPE, 3)
 
 
 def get_mape_values(actual, forecast):
@@ -38,8 +38,8 @@ def get_arima_op(models):
 
     return render_template('line_chart.html',
                            days = days,
-                           avg_mape_co= round(sum(mape_values_co) / len(mape_values_co),2),
-                           avg_mape_temp=round(sum(mape_values_temp) / len(mape_values_temp),2),
+                           avg_mape_co= round(sum(mape_values_co) / len(mape_values_co),3),
+                           avg_mape_temp=round(sum(mape_values_temp) / len(mape_values_temp),3),
                            mape_values_temp = mape_values_temp,
                            mape_values_co = mape_values_co,
                            models = models, model_name = 'Arima', title = 'Temp and CO Predictions by ARIMA', max=100,
@@ -61,8 +61,8 @@ def get_ses_op(models):
 
     return render_template('line_chart.html',
                            days = days,
-                           avg_mape_co=round(sum(mape_values_co) / len(mape_values_co),2),
-                           avg_mape_temp=round(sum(mape_values_temp) / len(mape_values_temp),2),
+                           avg_mape_co=round(sum(mape_values_co) / len(mape_values_co),3),
+                           avg_mape_temp=round(sum(mape_values_temp) / len(mape_values_temp),3),
                            mape_values_temp = mape_values_temp,
                            mape_values_co = mape_values_co,
                            models = models,model_name = 'Exponential Smoothening',
@@ -85,8 +85,8 @@ def get_fbprophet_op(models):
 
     return render_template('line_chart.html',
                            days = days,
-                           avg_mape_co=round(sum(mape_values_co) / len(mape_values_co),2),
-                           avg_mape_temp=round(sum(mape_values_temp) / len(mape_values_temp),2),
+                           avg_mape_co=round(sum(mape_values_co) / len(mape_values_co),3),
+                           avg_mape_temp=round(sum(mape_values_temp) / len(mape_values_temp),3),
                            mape_values_temp=mape_values_temp,
                            mape_values_co=mape_values_co,
                            models = models,model_name = 'FB Prophet' ,title= 'TEMP Predictions by Fb Prophet', max=100,
@@ -108,12 +108,12 @@ def get_neuralprophet_op(models):
 
     return render_template('line_chart.html',
                            days=days,
-                           avg_mape_co=round(sum(mape_values_co) / len(mape_values_co),2),
-                           avg_mape_temp=round(sum(mape_values_temp) / len(mape_values_temp),2),
+                           avg_mape_co=round(sum(mape_values_co) / len(mape_values_co),3),
+                           avg_mape_temp=round(sum(mape_values_temp) / len(mape_values_temp),3),
                            mape_values_temp=mape_values_temp,
                            mape_values_co=mape_values_co,
                            models = models,model_name = 'Neural Prophet' ,title= 'TEMP Predictions by Neural Prophet', max=100,
-                           labels= neuralprophet_co_op['DATE'].to_list(),
+                           labels= neuralprophet_co_op['DATE_TIME'].to_list(),
                             actual_temp = neuralprophet_temp_op['TEMP'].to_list(),
                            predicted_temp = neuralprophet_temp_op['PREDICTED_TEMP_NEURALPROPHET'].to_list(),
                             actual_co = neuralprophet_co_op['CO'].to_list(),
@@ -132,8 +132,8 @@ def get_lstm_op(models):
 
     return render_template('line_chart.html',
                            days=days,
-                           avg_mape_co = round(sum(mape_values_co)/len(mape_values_co),2),
-                           avg_mape_temp =round(sum(mape_values_temp) / len(mape_values_temp),2),
+                           avg_mape_co = round(sum(mape_values_co)/len(mape_values_co),3),
+                           avg_mape_temp =round(sum(mape_values_temp) / len(mape_values_temp),3),
                            mape_values_temp=mape_values_temp,
                            mape_values_co=mape_values_co,
                            models = models,model_name = 'LSTM' ,title= 'TEMP Predictions by LSTM', max=100,
