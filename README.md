@@ -13,6 +13,6 @@ To build & run the application in your local:
 1. Clone [Blue-sky-challenge-BinaryBrains](https://github.com/ritwik-deshpande/Blue-sky-challenge-BinaryBrains.git)
 2. Install the python packages given in the requirements.txt. Use the command `pip install -r requirements.txt`
 3. Run py files directly from CLI interface, for example:
-      1. LSTM temperature model -> python3 LSTM_temp.py
-      2. LSTM CO model -> python3 LSTM_co.py
+      1. LSTM temperature model -> python .\LSTM\py_files\LSTM_temp.py
+      2. LSTM CO model -> python .\LSTM\py_files\LSTM_co.py
 4. Access the application at your localhost on 8080 port
