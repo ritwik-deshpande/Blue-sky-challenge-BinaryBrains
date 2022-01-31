@@ -24,4 +24,5 @@ To build & run the application in your local:
       2. LSTM CO model -> python .\LSTM\py_files\LSTM_co.py
 4. Access the application at your localhost on 8080 port
 
-* To generate predicitons, run the google colab notebooks and save the excel files generated to the data folder. A deployment will be triggered on Heroku and the results can be viewed.
+## Note
+To generate predicitons, run the google colab notebooks and save the excel files generated to the data folder. A deployment will be triggered on Heroku and the results can be viewed.
