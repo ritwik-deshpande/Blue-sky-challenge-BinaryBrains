@@ -1,1 +1,0 @@
-"Air Quality.csv" file is located in "Data" folder
