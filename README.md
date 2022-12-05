@@ -4,7 +4,7 @@ This application is a submission by the team BinaryBrains for [The Blue Sky Chal
 
 # Codebase details
 1. The input data 'AirQuality.csv' is contained in Data folder.
-2. baseline_models folder contains the implementation of 4 baseline models - Exponential Smoothing, Auto ARIMA, Faccebook Prophet, Neural Prophet (.py files and google colab notebook)
+2. baseline_models folder contains the implementation of 4 baseline models - Exponential Smoothing, Auto ARIMA, Facebook Prophet, Neural Prophet (.py files and google colab notebook)
 3. The predictions are stored as excel files in the Data folder.
 4. LSTM folder contains the LSTM model code and the trained models saved as hd5 files.
 5. render_model_op.py renders the predictions to UI (hosted on cloud platform Heroku).
